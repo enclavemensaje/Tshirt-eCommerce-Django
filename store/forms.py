@@ -11,4 +11,4 @@ class UserRegistration(UserCreationForm):
 class CustomTshirtForm(forms.ModelForm):
     class Meta:
         model = Custom
-        fields = ['customer', 'order', 'design', 'color', 'tshirt_size', 'design_size', 'quentity']
+        fields = ['customer', 'order', 'design', 'color', 'tshirt_size', 'design_size', 'quentity', 'printing_type', 'print_colors', 'print_position']

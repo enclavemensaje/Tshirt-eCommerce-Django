@@ -10,8 +10,8 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'price', 'image', 'on_sell', 'on_stock', 'delivery']
-    list_filter = ['on_sell', 'on_stock', 'delivery']
+    list_display = ['id', 'name', 'price', 'image', 'on_sell', 'on_stock', 'delivery', 'printing_type', 'print_colors', 'print_position']
+    list_filter = ['on_sell', 'on_stock', 'delivery', 'printing_type', 'print_colors', 'print_position']
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

@@ -7,18 +7,44 @@
 	<div class="main">
 		<div class="options">
 			<h2>Design Size</h2>
-			<div class="selects">
+			<div class="selects design-size-selects">
 				<h4 data-size="large">Large</h4>
 				<h4 data-size="medium">Medium</h4>
 				<h4 data-size="small">Small</h4>
 			</div>
 			<h2>Tshirt Color</h2>
-			<div class="selects">
+			<div class="selects tshirt-color-selects">
 				<div data-color="black" class="color" style="background: black;"></div>
 				<div data-color="gray" class="color" style="background: gray;"></div>
 				<div data-color="#f4f4f4" class="color" style="background: #f4f4f4;"></div>
 				<div data-color="#22dde0" class="color" style="background: #22dde0;"></div>
 				<div  data-color="#c90630"class="color" style="background: #c90630;"></div>
+			</div>
+			<h2>Tipo de impresión</h2>
+			<div class="selects printing-type-selects">
+				<h4 data-printing_type="screen_printing">Serigrafía</h4>
+				<h4 data-printing_type="dtf">DTF</h4>
+				<h4 data-printing_type="dtg">DTG</h4>
+				<h4 data-printing_type="sublimation">Sublimación</h4>
+				<h4 data-printing_type="vinyl_heat_transfer">Vinilo textil</h4>
+				<h4 data-printing_type="embroidery">Bordado</h4>
+			</div>
+			<h2>Cantidad de colores</h2>
+			<div class="selects print-colors-selects">
+				<h4 data-print_colors="1">1 color</h4>
+				<h4 data-print_colors="2">2 colores</h4>
+				<h4 data-print_colors="3">3 colores</h4>
+				<h4 data-print_colors="4">4 colores</h4>
+				<h4 data-print_colors="5_plus">5+ colores</h4>
+			</div>
+			<h2>Posición de impresión</h2>
+			<div class="selects print-position-selects">
+				<h4 data-print_position="front_center">Frente centro</h4>
+				<h4 data-print_position="front_left_chest">Pecho izquierdo</h4>
+				<h4 data-print_position="back_center">Espalda centro</h4>
+				<h4 data-print_position="left_sleeve">Manga izquierda</h4>
+				<h4 data-print_position="right_sleeve">Manga derecha</h4>
+				<h4 data-print_position="front_and_back">Frente + espalda</h4>
 			</div>
 			<h2>Quentity</h2>
 			<div class="quentity-section">
@@ -48,7 +74,7 @@
 				<button type="submit" class="order-btn"> Order Now! </button>
 			</form>
 		</div>
-		<input type="hidden" class="tshirt-data" data-design_size="medium" data-tshirt_size="xl" data-tshirt_color="black" data-quentity=1>
+		<input type="hidden" class="tshirt-data" data-design_size="medium" data-tshirt_size="xl" data-tshirt_color="black" data-quentity=1 data-printing_type="screen_printing" data-print_colors="1" data-print_position="front_center">
 	</div>
 </div>
 <script src="{% static 'js/custom.js' %}" charset="utf-8"></script>
