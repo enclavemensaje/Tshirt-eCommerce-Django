@@ -36,6 +36,29 @@ class Product(models.Model):
              ('green', 'green'),
              ('white', 'white'),
              ('gray', 'gray'))
+    PRINTING_TYPE = (
+        ('screen_printing', 'screen printing'),
+        ('dtf', 'dtf'),
+        ('dtg', 'dtg'),
+        ('sublimation', 'sublimation'),
+        ('vinyl_heat_transfer', 'vinyl heat transfer'),
+        ('embroidery', 'embroidery'),
+    )
+    PRINT_COLORS = (
+        ('1', '1 color'),
+        ('2', '2 colors'),
+        ('3', '3 colors'),
+        ('4', '4 colors'),
+        ('5_plus', '5+ colors (CMYK/process)'),
+    )
+    PRINT_POSITION = (
+        ('front_center', 'front center'),
+        ('front_left_chest', 'front left chest'),
+        ('back_center', 'back center'),
+        ('left_sleeve', 'left sleeve'),
+        ('right_sleeve', 'right sleeve'),
+        ('front_and_back', 'front and back'),
+    )
 
     name = models.CharField(max_length=100, null=True)
     price = models.FloatField(null=True)
@@ -48,6 +71,9 @@ class Product(models.Model):
     delivery = models.BooleanField(default=False, null=True)
     color = models.CharField(max_length=200, null=True, blank=True, choices=COLOR)
     size = models.CharField(max_length=200, null=True, blank=True, choices=SIZE)
+    printing_type = models.CharField(max_length=100, null=True, blank=True, choices=PRINTING_TYPE)
+    print_colors = models.CharField(max_length=100, null=True, blank=True, choices=PRINT_COLORS)
+    print_position = models.CharField(max_length=100, null=True, blank=True, choices=PRINT_POSITION)
 
     def __str__(self):
         return self.name;
@@ -146,6 +172,29 @@ class Custom(models.Model):
         ('xl', 'xl'),
         ('xxl', 'xxl')
     )
+    PRINTING_TYPE = (
+        ('screen_printing', 'screen printing'),
+        ('dtf', 'dtf'),
+        ('dtg', 'dtg'),
+        ('sublimation', 'sublimation'),
+        ('vinyl_heat_transfer', 'vinyl heat transfer'),
+        ('embroidery', 'embroidery'),
+    )
+    PRINT_COLORS = (
+        ('1', '1 color'),
+        ('2', '2 colors'),
+        ('3', '3 colors'),
+        ('4', '4 colors'),
+        ('5_plus', '5+ colors (CMYK/process)'),
+    )
+    PRINT_POSITION = (
+        ('front_center', 'front center'),
+        ('front_left_chest', 'front left chest'),
+        ('back_center', 'back center'),
+        ('left_sleeve', 'left sleeve'),
+        ('right_sleeve', 'right sleeve'),
+        ('front_and_back', 'front and back'),
+    )
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="custom_order", blank=True, null=True)
@@ -154,6 +203,9 @@ class Custom(models.Model):
     tshirt_size = models.CharField(max_length=100, null=True, blank=False, choices=TSHIRT_SIZE)
     design_size = models.CharField(max_length=100, null=True, blank=False, choices=DESIGN_SIZE)
     quentity = models.CharField(default="1", max_length=200, null=True, blank=False)
+    printing_type = models.CharField(max_length=100, null=True, blank=False, choices=PRINTING_TYPE, default='screen_printing')
+    print_colors = models.CharField(max_length=100, null=True, blank=False, choices=PRINT_COLORS, default='1')
+    print_position = models.CharField(max_length=100, null=True, blank=False, choices=PRINT_POSITION, default='front_center')
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

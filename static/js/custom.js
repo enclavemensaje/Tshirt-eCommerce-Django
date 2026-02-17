@@ -1,6 +1,9 @@
-var designSize = document.querySelectorAll(".options .selects h4")
+var designSize = document.querySelectorAll(".design-size-selects h4")
+var printingType = document.querySelectorAll(".printing-type-selects h4")
+var printColors = document.querySelectorAll(".print-colors-selects h4")
+var printPosition = document.querySelectorAll(".print-position-selects h4")
 var tshirtSize = document.querySelectorAll(".upload .selects-2 h4")
-var tshirtColor = document.querySelectorAll(".options .selects .color")
+var tshirtColor = document.querySelectorAll(".tshirt-color-selects .color")
 var tshirtData = document.querySelector(".tshirt-data")
 var tshirtDesgin = document.querySelector(".tshirt img")
 var tshirt = document.querySelector(".tshirt")
@@ -14,6 +17,12 @@ designSize[1].style.color = "white"
 tshirtSize[3].style.background = "black"
 tshirtSize[3].style.color = "white"
 tshirtColor[0].style.border = "1px solid #111"
+printingType[0].style.background = "black"
+printingType[0].style.color = "white"
+printColors[0].style.background = "black"
+printColors[0].style.color = "white"
+printPosition[0].style.background = "black"
+printPosition[0].style.color = "white"
 
 var quentityValue = Number.parseInt(quentity.value)
 
@@ -60,6 +69,44 @@ tshirtColor.forEach((item, i) => {
 	})
 })
 
+
+printingType.forEach((item, i) => {
+	item.addEventListener("click", () => {
+		printingType.forEach((item, i) => {
+			item.style.background = "#f4f4f4"
+			item.style.color = "gray"
+		})
+		item.style.background = "black"
+		item.style.color = "white"
+		tshirtData.dataset.printing_type = item.dataset.printing_type
+	})
+})
+
+printColors.forEach((item, i) => {
+	item.addEventListener("click", () => {
+		printColors.forEach((item, i) => {
+			item.style.background = "#f4f4f4"
+			item.style.color = "gray"
+		})
+		item.style.background = "black"
+		item.style.color = "white"
+		tshirtData.dataset.print_colors = item.dataset.print_colors
+	})
+})
+
+
+printPosition.forEach((item, i) => {
+	item.addEventListener("click", () => {
+		printPosition.forEach((item, i) => {
+			item.style.background = "#f4f4f4"
+			item.style.color = "gray"
+		})
+		item.style.background = "black"
+		item.style.color = "white"
+		tshirtData.dataset.print_position = item.dataset.print_position
+	})
+})
+
 var designInput = document.querySelector(".design-input")
 designInput.addEventListener("input", () => {
 	const reader = new FileReader()
@@ -77,6 +124,9 @@ orderForm.addEventListener('submit', (e) => {
 	formData.append('design_size', tshirtData.dataset.design_size)
 	formData.append('color', tshirtData.dataset.tshirt_color)
 	formData.append('quentity', tshirtData.dataset.quentity)
+	formData.append('printing_type', tshirtData.dataset.printing_type)
+	formData.append('print_colors', tshirtData.dataset.print_colors)
+	formData.append('print_position', tshirtData.dataset.print_position)
 	console.log(Array.from(formData))
 
 	var url = '/custom/'

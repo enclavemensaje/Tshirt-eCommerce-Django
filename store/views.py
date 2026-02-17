@@ -47,6 +47,9 @@ def category_items(request, id):
         category = request.POST.get('category')
         color = request.POST.get('colors')
         size = request.POST.get('sizes')
+        printing_type = request.POST.get('printing-type')
+        print_colors = request.POST.get('print-colors')
+        print_position = request.POST.get('print-position')
         starting_price = request.POST.get('starting-price')
         if starting_price: float(starting_price)
         ending_price = request.POST.get('ending-price')
@@ -65,6 +68,12 @@ def category_items(request, id):
             products = products.filter(color=color)
         if size:
             products = products.filter(size=size)
+        if printing_type:
+            products = products.filter(printing_type=printing_type)
+        if print_colors:
+            products = products.filter(print_colors=print_colors)
+        if print_position:
+            products = products.filter(print_position=print_position)
         if on_sell:
             products = products.filter(on_sell=True)
         if free_delivery:
