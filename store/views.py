@@ -9,7 +9,7 @@ import sys
 
 from .models import *
 from .forms import *
-from .cart import cookieCart, cartData
+from .cart import cookieCart, cartData, get_variant_extra_price
 
 
 def store(request):
@@ -47,6 +47,9 @@ def category_items(request, id):
         category = request.POST.get('category')
         color = request.POST.get('colors')
         size = request.POST.get('sizes')
+        printing_type = request.POST.get('printing-type')
+        print_colors = request.POST.get('print-colors')
+        print_position = request.POST.get('print-position')
         starting_price = request.POST.get('starting-price')
         if starting_price: float(starting_price)
         ending_price = request.POST.get('ending-price')
@@ -65,6 +68,12 @@ def category_items(request, id):
             products = products.filter(color=color)
         if size:
             products = products.filter(size=size)
+        if printing_type:
+            products = products.filter(printing_type=printing_type)
+        if print_colors:
+            products = products.filter(print_colors=print_colors)
+        if print_position:
+            products = products.filter(print_position=print_position)
         if on_sell:
             products = products.filter(on_sell=True)
         if free_delivery:
@@ -147,6 +156,10 @@ def view_product(request, id):
     data = cookieCart(request)
     cart_info = data['order']
 
+    printing_type_options = PrintPricing.objects.filter(variant_type='printing_type', is_active=True)
+    print_colors_options = PrintPricing.objects.filter(variant_type='print_colors', is_active=True)
+    print_position_options = PrintPricing.objects.filter(variant_type='print_position', is_active=True)
+
     context = {
         'cart_info': cart_info,
         'product': product,
@@ -154,6 +167,9 @@ def view_product(request, id):
         'rated': sum_rated,
         'reviews': reviews,
         'categories': categories,
+        'printing_type_options': printing_type_options,
+        'print_colors_options': print_colors_options,
+        'print_position_options': print_position_options,
         'title': 'Product'
     }
     return render(request, 'store/product.html', context)
@@ -252,7 +268,15 @@ def order_placed(request):
                                 zip=data['zip'])
         for i in cart_data['items']:
             product = Product.objects.get(id=i['product']['id'])
-            OrderItem.objects.create(product=product, order=order, quentity=i['quentity'])
+            OrderItem.objects.create(
+                product=product,
+                order=order,
+                quentity=i['quentity'],
+                printing_type=i.get('printing_type'),
+                print_colors=i.get('print_colors'),
+                print_position=i.get('print_position'),
+                unit_price=i.get('unit_price')
+            )
         order = Order.objects.get(customer=request.user.customer)
         order.order_placed = True
         order.complete = False

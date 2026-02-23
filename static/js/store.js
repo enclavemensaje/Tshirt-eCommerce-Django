@@ -1,28 +1,34 @@
 // CART //
+function getCartKey(productID, printingType, printColors, printPosition){
+	return `${productID}|${printingType || ""}|${printColors || ""}|${printPosition || ""}`
+}
+
 var update_cart_btn = document.querySelectorAll('.update-cart');
 update_cart_btn.forEach((btn) => {
 	btn.addEventListener('click', function(){
 		var productID = this.dataset.product;
 		var action = this.dataset.action;
 		console.log('productID: ', productID, 'action: ', action);
-		addCookieItem(productID, action);
+		addCookieItem(productID, action, this.dataset.printing_type, this.dataset.print_colors, this.dataset.print_position);
 	});
 });
 
-function addCookieItem(productID, action){
+function addCookieItem(productID, action, printingType, printColors, printPosition){
 	console.log("Cookie..");
+	var cartKey = getCartKey(productID, printingType, printColors, printPosition);
 	if(action == "add"){
-		if(cart[productID] == undefined){
-			cart[productID] = {'quentity':1};
+		if(cart[cartKey] == undefined){
+			cart[cartKey] = {'quentity':1};
 		}
 		else{
-			cart[productID]['quentity'] += 1;
+			cart[cartKey]['quentity'] += 1;
 		}
 	}
 	else if(action == 'remove'){
-		cart[productID]['quentity'] -= 1;
-		if(cart[productID]['quentity'] <= 0){
-			delete cart[productID];
+		if(cart[cartKey] == undefined) return;
+		cart[cartKey]['quentity'] -= 1;
+		if(cart[cartKey]['quentity'] <= 0){
+			delete cart[cartKey];
 		}
 	}
 	console.log('Cart Created!', cart)

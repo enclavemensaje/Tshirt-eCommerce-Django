@@ -7,7 +7,7 @@
 	<div class="product">
 		<div class="product-container">
 				<div class="item">
-					<a data-product={{product.id}} data-action="add" id="item-btn" class="add-to-cart-btn update-cart">Add to cart</a>
+					<a data-product={{product.id}} data-action="add" id="item-btn" class="add-to-cart-btn update-cart" data-printing_type="" data-print_colors="" data-print_position="">Add to cart</a>
 					<img src={{ product.image.url }}>
 					<h3 class="product-name"> {{ product.name }}</h3>
 					{% if product.on_stock %}
@@ -27,6 +27,43 @@
 						 The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
 					<h3 class="product-size">Size: <span class="tag">{{product.size}}</span></h3>
 					<h3 class="product-color">Color:<span class="color-tag" style="background:{{product.color}}"></span></h3>
+					{% if product.printing_type %}
+						<h3 class="product-printing-type">Printing type: <span class="tag">{{ product.get_printing_type_display }}</span></h3>
+					{% endif %}
+					{% if product.print_colors %}
+						<h3 class="product-print-colors">Print colors: <span class="tag">{{ product.get_print_colors_display }}</span></h3>
+					{% endif %}
+					{% if product.print_position %}
+						<h3 class="product-print-position">Print position: <span class="tag">{{ product.get_print_position_display }}</span></h3>
+					{% endif %}
+
+					{% if printing_type_options %}
+						<h3>Printing type</h3>
+						<select class="product-variant" id="printing-type-select">
+							<option value="">Select</option>
+							{% for option in printing_type_options %}
+								<option value="{{ option.option_value }}">{{ option.label }} (+${{ option.extra_price|floatformat:2 }})</option>
+							{% endfor %}
+						</select>
+					{% endif %}
+					{% if print_colors_options %}
+						<h3>Print colors</h3>
+						<select class="product-variant" id="print-colors-select">
+							<option value="">Select</option>
+							{% for option in print_colors_options %}
+								<option value="{{ option.option_value }}">{{ option.label }} (+${{ option.extra_price|floatformat:2 }})</option>
+							{% endfor %}
+						</select>
+					{% endif %}
+					{% if print_position_options %}
+						<h3>Print position</h3>
+						<select class="product-variant" id="print-position-select">
+							<option value="">Select</option>
+							{% for option in print_position_options %}
+								<option value="{{ option.option_value }}">{{ option.label }} (+${{ option.extra_price|floatformat:2 }})</option>
+							{% endfor %}
+						</select>
+					{% endif %}
 					<h3 class="product-price"><i class="fas fa-dollar-sign"></i>{{ product.price }}</h3>
 				</div>
 		</div>
