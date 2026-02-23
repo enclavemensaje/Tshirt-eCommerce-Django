@@ -9,6 +9,7 @@ import sys
 
 from .models import *
 from .forms import *
+from .cart import cookieCart, cartData, get_variant_extra_price
 from .cart import cookieCart, cartData
 
 
@@ -156,6 +157,10 @@ def view_product(request, id):
     data = cookieCart(request)
     cart_info = data['order']
 
+    printing_type_options = PrintPricing.objects.filter(variant_type='printing_type', is_active=True)
+    print_colors_options = PrintPricing.objects.filter(variant_type='print_colors', is_active=True)
+    print_position_options = PrintPricing.objects.filter(variant_type='print_position', is_active=True)
+
     context = {
         'cart_info': cart_info,
         'product': product,
@@ -163,6 +168,9 @@ def view_product(request, id):
         'rated': sum_rated,
         'reviews': reviews,
         'categories': categories,
+        'printing_type_options': printing_type_options,
+        'print_colors_options': print_colors_options,
+        'print_position_options': print_position_options,
         'title': 'Product'
     }
     return render(request, 'store/product.html', context)
@@ -261,6 +269,15 @@ def order_placed(request):
                                 zip=data['zip'])
         for i in cart_data['items']:
             product = Product.objects.get(id=i['product']['id'])
+            OrderItem.objects.create(
+                product=product,
+                order=order,
+                quentity=i['quentity'],
+                printing_type=i.get('printing_type'),
+                print_colors=i.get('print_colors'),
+                print_position=i.get('print_position'),
+                unit_price=i.get('unit_price')
+            )
             OrderItem.objects.create(product=product, order=order, quentity=i['quentity'])
         order = Order.objects.get(customer=request.user.customer)
         order.order_placed = True

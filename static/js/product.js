@@ -1,28 +1,34 @@
 // CART //
+function getCartKey(productID, printingType, printColors, printPosition){
+	return `${productID}|${printingType || ""}|${printColors || ""}|${printPosition || ""}`
+}
+
 var update_cart_btn = document.querySelectorAll('.update-cart');
 update_cart_btn.forEach((btn) => {
 	btn.addEventListener('click', function(){
 		var productID = this.dataset.product;
 		var action = this.dataset.action;
 		console.log('productID: ', productID, 'action: ', action);
-		addCookieItem(productID, action);
+		addCookieItem(productID, action, this.dataset.printing_type, this.dataset.print_colors, this.dataset.print_position);
 	});
 });
 
-function addCookieItem(productID, action){
+function addCookieItem(productID, action, printingType, printColors, printPosition){
 	console.log("Cookie..");
+	var cartKey = getCartKey(productID, printingType, printColors, printPosition);
 	if(action == "add"){
-		if(cart[productID] == undefined){
-			cart[productID] = {'quentity':1};
+		if(cart[cartKey] == undefined){
+			cart[cartKey] = {'quentity':1};
 		}
 		else{
-			cart[productID]['quentity'] += 1;
+			cart[cartKey]['quentity'] += 1;
 		}
 	}
 	else if(action == 'remove'){
-		cart[productID]['quentity'] -= 1;
-		if(cart[productID]['quentity'] <= 0){
-			delete cart[productID];
+		if(cart[cartKey] == undefined) return;
+		cart[cartKey]['quentity'] -= 1;
+		if(cart[cartKey]['quentity'] <= 0){
+			delete cart[cartKey];
 		}
 	}
 	console.log('Cart Created!', cart)
@@ -33,18 +39,20 @@ function addCookieItem(productID, action){
 
 // Rating
 var rating_star = document.querySelector('.rating');
-var rating = Number(rating_star.dataset.rating);
-var int_rating = parseInt(rating);
-var fraction = rating - int_rating;
-for(let i=1; i<=int_rating; i++){
-	rating_star.innerHTML += '<i class="fas fa-star"></i>';
-}
-if(fraction >= 0.5){
-	rating_star.innerHTML += '<i class="fas fa-star-half-alt"></i>';
-	int_rating++;
-}
-for(let i=int_rating+1; i<=5; i++){
-	rating_star.innerHTML += '<i class="far fa-star"></i>';
+if(rating_star){
+	var rating = Number(rating_star.dataset.rating);
+	var int_rating = parseInt(rating);
+	var fraction = rating - int_rating;
+	for(let i=1; i<=int_rating; i++){
+		rating_star.innerHTML += '<i class="fas fa-star"></i>';
+	}
+	if(fraction >= 0.5){
+		rating_star.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+		int_rating++;
+	}
+	for(let i=int_rating+1; i<=5; i++){
+		rating_star.innerHTML += '<i class="far fa-star"></i>';
+	}
 }
 
 // location navigation
@@ -53,7 +61,9 @@ links.forEach((link) => {
 	link.href = link.href.replace('product/', '');
 });
 
-document.querySelector('.rating-submit').addEventListener('click', function(){
+var ratingSubmitBtn = document.querySelector('.rating-submit');
+if(ratingSubmitBtn){
+ratingSubmitBtn.addEventListener('click', function(){
 	var rating = document.querySelector('.rating-select').value;
 	var user = this.dataset.user;
 	var product = this.dataset.product;
@@ -80,6 +90,7 @@ document.querySelector('.rating-submit').addEventListener('click', function(){
 		location.reload();
 	})
 });
+}
 
 
 
@@ -141,3 +152,27 @@ review_btn.forEach((submit) => {
 	});
 
 });
+
+
+var addToCartBtn = document.querySelector('.add-to-cart-btn.update-cart')
+var printingTypeSelect = document.querySelector('#printing-type-select')
+var printColorsSelect = document.querySelector('#print-colors-select')
+var printPositionSelect = document.querySelector('#print-position-select')
+
+if(addToCartBtn){
+	if(printingTypeSelect){
+		printingTypeSelect.addEventListener('change', () => {
+			addToCartBtn.dataset.printing_type = printingTypeSelect.value
+		})
+	}
+	if(printColorsSelect){
+		printColorsSelect.addEventListener('change', () => {
+			addToCartBtn.dataset.print_colors = printColorsSelect.value
+		})
+	}
+	if(printPositionSelect){
+		printPositionSelect.addEventListener('change', () => {
+			addToCartBtn.dataset.print_position = printPositionSelect.value
+		})
+	}
+}

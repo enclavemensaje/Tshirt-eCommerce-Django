@@ -20,7 +20,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['order', 'id', 'product', 'quentity']
+    list_display = ['order', 'id', 'product', 'quentity', 'printing_type', 'print_colors', 'print_position', 'unit_price']
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
@@ -37,3 +37,9 @@ class ShippingAdmin(admin.ModelAdmin):
 @admin.register(Custom)
 class CustomAdmin(admin.ModelAdmin):
     list_display = ['customer', 'order', 'design', 'quentity', 'color', 'tshirt_size', 'design_size', 'date']
+
+
+@admin.register(PrintPricing)
+class PrintPricingAdmin(admin.ModelAdmin):
+    list_display = ['variant_type', 'option_value', 'label', 'extra_price', 'is_active']
+    list_filter = ['variant_type', 'is_active']

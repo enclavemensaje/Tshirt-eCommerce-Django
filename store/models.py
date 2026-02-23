@@ -136,6 +136,10 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
     quentity = models.IntegerField(default=0, null=True, blank=True)
+    printing_type = models.CharField(max_length=100, null=True, blank=True)
+    print_colors = models.CharField(max_length=100, null=True, blank=True)
+    print_position = models.CharField(max_length=100, null=True, blank=True)
+    unit_price = models.FloatField(null=True, blank=True)
     date =  models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -143,8 +147,29 @@ class OrderItem(models.Model):
 
     @property
     def get_total(self):
-        total = self.product.price * self.quentity
+        price = self.unit_price if self.unit_price else self.product.price
+        total = price * self.quentity
         return total
+
+
+class PrintPricing(models.Model):
+    VARIANT_TYPE = (
+        ('printing_type', 'printing type'),
+        ('print_colors', 'print colors'),
+        ('print_position', 'print position'),
+    )
+
+    variant_type = models.CharField(max_length=50, choices=VARIANT_TYPE)
+    option_value = models.CharField(max_length=100)
+    label = models.CharField(max_length=100)
+    extra_price = models.FloatField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ('variant_type', 'option_value')
+
+    def __str__(self):
+        return f"{self.variant_type} | {self.label} (+{self.extra_price})"
 
 
 class Shipping(models.Model):

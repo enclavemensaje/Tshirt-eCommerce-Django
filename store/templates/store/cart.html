@@ -16,12 +16,15 @@
 					<div class="cart-item">
 						<img src={{ item.product.image.url }} alt="Product image">
 						<h4 class="cart-item-name">{{ item.product.name | slice:40 }}...</h4>
-						<h4 class="cart-item-price">Price: <span id="number"><i class="fas fa-dollar-sign"></i> {{ item.product.price | floatformat:2 }}</span></h4>
+						<h4 class="cart-item-price">Price: <span id="number"><i class="fas fa-dollar-sign"></i> {{ item.unit_price | floatformat:2 }}</span></h4>
+						{% if item.printing_type %}<h5>Printing: {{ item.printing_type }}</h5>{% endif %}
+						{% if item.print_colors %}<h5>Colors: {{ item.print_colors }}</h5>{% endif %}
+						{% if item.print_position %}<h5>Position: {{ item.print_position }}</h5>{% endif %}
 						<div class="quentity">
 							<h4 class="cart-item-quentity">Quentity: <span class="quentity-number" id="number">{{ item.quentity }}</span></h4>
 							<div class="quentity-btn">
-								<p class="up-btn update-item" data-product={{item.product.id}} data-action="add"><i class="fas fa-caret-up"></i></p>
-								<p class="down-btn update-item" data-product={{item.product.id}} data-action="remove"><i class="fas fa-caret-down"></i></p>
+								<p class="up-btn update-item" data-product={{item.product.id}} data-action="add" data-printing_type="{{ item.printing_type }}" data-print_colors="{{ item.print_colors }}" data-print_position="{{ item.print_position }}"><i class="fas fa-caret-up"></i></p>
+								<p class="down-btn update-item" data-product={{item.product.id}} data-action="remove" data-printing_type="{{ item.printing_type }}" data-print_colors="{{ item.print_colors }}" data-print_position="{{ item.print_position }}"><i class="fas fa-caret-down"></i></p>
 							</div>
 						</div>
 						<h4 class="cart-item-total-price">Total: <span id="number"><i class="fas fa-dollar-sign"></i> {{ item.get_total | floatformat:2 }}</span></h4>
