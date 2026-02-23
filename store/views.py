@@ -10,6 +10,7 @@ import sys
 from .models import *
 from .forms import *
 from .cart import cookieCart, cartData, get_variant_extra_price
+from .cart import cookieCart, cartData
 
 
 def store(request):
@@ -277,6 +278,7 @@ def order_placed(request):
                 print_position=i.get('print_position'),
                 unit_price=i.get('unit_price')
             )
+            OrderItem.objects.create(product=product, order=order, quentity=i['quentity'])
         order = Order.objects.get(customer=request.user.customer)
         order.order_placed = True
         order.complete = False

@@ -8,6 +8,7 @@
 		<div class="product-container">
 				<div class="item">
 					<a data-product={{product.id}} data-action="add" id="item-btn" class="add-to-cart-btn update-cart" data-printing_type="" data-print_colors="" data-print_position="">Add to cart</a>
+					<a data-product={{product.id}} data-action="add" id="item-btn" class="add-to-cart-btn update-cart">Add to cart</a>
 					<img src={{ product.image.url }}>
 					<h3 class="product-name"> {{ product.name }}</h3>
 					{% if product.on_stock %}
